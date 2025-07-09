@@ -1,1 +1,1 @@
-## Typescript crash course
+## Custom github action written with Typescript. 
