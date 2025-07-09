@@ -16,4 +16,4 @@ jobs:
       - run: |
           echo "Name of the created dir: ${{ steps.create-user-directory.outputs.created_dir }}"
           echo "Also workspace tree looks like this:"
-          tree -L 1
+          tree -L 2
