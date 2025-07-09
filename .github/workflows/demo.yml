@@ -1,0 +1,17 @@
+name: Demo - create user dir
+
+on: [workflow_dispatch]
+
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./custom/
+        with:
+          user_id: 3
+
+      - run: |
+          echo "Workspace tree:"
+          tree -L 1

@@ -1,0 +1,14 @@
+name: 'Create user directory from JSONPlaceholder'
+description: 'Fetch a user and make a folder named after its `title` field (or a random name).'
+author: 'Your Name'
+inputs:
+  user_id:
+    description: 'Integer id of the /users/ record to fetch'
+    required: true
+    default: '1'
+outputs:
+  created_dir:
+    description: 'Name of the directory that was created in the workspace'
+runs:
+  using: 'node20'
+  main: 'dist/index.js'   # <-- compiled JS goes here after `npm run build`
