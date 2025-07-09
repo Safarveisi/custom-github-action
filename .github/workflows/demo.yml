@@ -19,7 +19,7 @@ jobs:
         run: |
           npm i & npm run build
       
-      - uses: ./custom/
+      - uses: ./
         id: create-user-directory
         with:
           user_id: 3
