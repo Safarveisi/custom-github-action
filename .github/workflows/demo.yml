@@ -9,9 +9,11 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: ./custom/
+        id: create-user-directory
         with:
           user_id: 3
 
       - run: |
-          echo "Workspace tree:"
+          echo "Name of the created dir: ${{ steps.create-user-directory.outputs.created_dir }}"
+          echo "Also workspace tree looks like this:"
           tree -L 1
