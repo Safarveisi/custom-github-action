@@ -15,7 +15,6 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies and build dist/ directory
-        working-directory: ./custom
         run: |
           npm i & npm run build
       
