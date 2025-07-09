@@ -37,22 +37,31 @@ const core = __importStar(require("@actions/core"));
 const fs = __importStar(require("fs/promises"));
 const path = __importStar(require("path"));
 const uuid_1 = require("uuid");
-function sanitize(name) {
-    // Replace illegal path chars with “_” and trim.
-    const cleaned = name.replace(/[^a-z0-9 _.-]/gi, '_').trim();
-    return cleaned.length > 0 ? cleaned : `untitled-${Date.now()}`;
+function formatDirName(raw) {
+    // lower-case
+    let name = raw.toLowerCase();
+    // compress whitespace → single underscore
+    name = name.trim().replace(/\s+/g, '_');
+    // remove anything that isn’t a-z, 0-9, underscore, dot, dash
+    name = name.replace(/[^a-z0-9_.-]/g, '');
+    // final check
+    return name.length ? name : `untitled-${Date.now()}`;
 }
 async function run() {
     var _a;
     try {
-        // 1️⃣  Read and validate the input
+        // ---------------------------------------------------
+        // Input
+        // ---------------------------------------------------
         const userIdRaw = core.getInput('user_id', { required: true });
         const userId = Number(userIdRaw);
         if (!Number.isInteger(userId) || userId <= 0) {
             core.setFailed('`user_id` must be a positive integer.');
             return;
         }
-        // 2️⃣  Fetch the user record
+        // ---------------------------------------------------
+        // Fetch the record
+        // ---------------------------------------------------
         const url = `https://jsonplaceholder.typicode.com/users/${userId}`;
         core.info(`Fetching ${url} …`);
         const res = await fetch(url);
@@ -61,16 +70,22 @@ async function run() {
             return;
         }
         const data = (await res.json());
-        // 3️⃣  Decide the directory name
-        const dirName = typeof data.title === 'string'
-            ? sanitize(data.title)
+        // ---------------------------------------------------
+        // Decide directory name
+        // ---------------------------------------------------
+        const dirName = typeof data.name === 'string'
+            ? formatDirName(data.name)
             : `placeholder-${(0, uuid_1.v4)()}`;
-        // 4️⃣  Create the directory inside GITHUB_WORKSPACE
+        // ---------------------------------------------------
+        // Create directory
+        // ---------------------------------------------------
         const workspace = (_a = process.env.GITHUB_WORKSPACE) !== null && _a !== void 0 ? _a : process.cwd();
         const dirPath = path.join(workspace, dirName);
         await fs.mkdir(dirPath, { recursive: true });
         core.info(`✅  Created directory: ${dirPath}`);
-        // 5️⃣  Expose the result for downstream steps
+        // ---------------------------------------------------
+        // Output
+        // ---------------------------------------------------
         core.setOutput('created_dir', dirName);
     }
     catch (err) {
