@@ -4,6 +4,9 @@ on: [workflow_dispatch]
 
 jobs:
   demo:
+    strategy:
+      matrix:
+        ids: [1, 2, 3, 4, 5]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,7 +23,7 @@ jobs:
       - uses: ./
         id: create-user-directory
         with:
-          user_id: 3
+          user_id: ${{ matrix.ids }}
 
       - run: |
           echo "Name of the created dir: ${{ steps.create-user-directory.outputs.created_dir }}"
