@@ -1,12 +1,17 @@
 name: Demo - create user dir
 
-on: [workflow_dispatch]
+on: 
+  workflow_dispatch:
+    inputs:
+      user_id:
+        description: The user id for which the name is desired
+        required: true
+        type: choice
+        options: ['1', '2', '3', '4', '5']
+
 
 jobs:
   demo:
-    strategy:
-      matrix:
-        ids: [1, 2, 3, 4, 5]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -23,7 +28,7 @@ jobs:
       - uses: ./
         id: create-user-directory
         with:
-          user_id: ${{ matrix.ids }}
+          user_id: ${{ github.event.inputs.user_id }}
 
       - run: |
           echo "Name of the created dir: ${{ steps.create-user-directory.outputs.created_dir }}"
