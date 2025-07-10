@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && ncc build lib/index.js",
     "prepack": "npm run build"
   },
   "dependencies": {
     "@actions/core": "^1.11.0",
+    "@vercel/ncc": "^0.38.3",
     "uuid": "^10.0.0"
   },
   "devDependencies": {
