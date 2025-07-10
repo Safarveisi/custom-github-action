@@ -22,9 +22,11 @@ jobs:
           cache: 'npm'
           cache-dependency-path: package-lock.json
 
-      - name: Install dependencies and build dist/ directory
-        run: |
-          npm i && npm run build
+      - name: Install dependencies
+        run: npm ci 
+
+      - name:  Build dist/ directory
+        run: npm run build
       
       - uses: ./
         id: create-user-directory
