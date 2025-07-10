@@ -1,6 +1,6 @@
 name: 'Create user directory from JSONPlaceholder'
-description: 'Fetch a user and make a folder named after its `title` field (or a random name).'
-author: 'Your Name'
+description: 'Fetch a user and make a folder named after its `name` field (or a random name).'
+author: 'Sajad Safarveisi'
 inputs:
   user_id:
     description: 'Integer id of the /users/ record to fetch'
