@@ -1,31 +1,31 @@
-import * as core from '@actions/core';
-import * as fs from 'fs/promises';
-import * as path from 'path';
-import { v4 as uuid } from 'uuid';
+import * as core from "@actions/core";
+import * as fs from "fs/promises";
+import * as path from "path";
+import { v4 as uuid } from "uuid";
 
 function formatDirName(raw: string): string {
   // lower-case
   let name = raw.toLowerCase();
 
   // compress whitespace → single underscore
-  name = name.trim().replace(/\s+/g, '_');
+  name = name.trim().replace(/\s+/g, "_");
 
   // remove anything that isn’t a-z, 0-9, underscore, dot, dash
-  name = name.replace(/[^a-z0-9_.-]/g, '');
+  name = name.replace(/[^a-z0-9_.-]/g, "");
 
   // final check
   return name.length ? name : `untitled-${Date.now()}`;
 }
 
-async function run(): Promise<void> {
+export async function run(): Promise<void> {
   try {
     // ---------------------------------------------------
     // Input
     // ---------------------------------------------------
-    const userIdRaw = core.getInput('user_id', { required: true });
+    const userIdRaw = core.getInput("user_id", { required: true });
     const userId = Number(userIdRaw);
     if (!Number.isInteger(userId) || userId <= 0) {
-      core.setFailed('`user_id` must be a positive integer.');
+      core.setFailed("`user_id` must be a positive integer.");
       return;
     }
 
@@ -44,10 +44,7 @@ async function run(): Promise<void> {
     // ---------------------------------------------------
     // Decide directory name
     // ---------------------------------------------------
-    const dirName =
-      typeof data.name === 'string'
-        ? formatDirName(data.name)
-        : `placeholder-${uuid()}`;
+    const dirName = typeof data.name === "string" ? formatDirName(data.name) : `placeholder-${uuid()}`;
 
     // ---------------------------------------------------
     // Create directory
@@ -60,7 +57,7 @@ async function run(): Promise<void> {
     // ---------------------------------------------------
     // Output
     // ---------------------------------------------------
-    core.setOutput('created_dir', dirName);
+    core.setOutput("created_dir", dirName);
   } catch (err) {
     core.setFailed((err as Error).message);
   }

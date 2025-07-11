@@ -40,6 +40,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.run = run;
 const core = __importStar(__nccwpck_require__(7484));
 const fs = __importStar(__nccwpck_require__(1943));
 const path = __importStar(__nccwpck_require__(6928));
@@ -48,9 +49,9 @@ function formatDirName(raw) {
     // lower-case
     let name = raw.toLowerCase();
     // compress whitespace → single underscore
-    name = name.trim().replace(/\s+/g, '_');
+    name = name.trim().replace(/\s+/g, "_");
     // remove anything that isn’t a-z, 0-9, underscore, dot, dash
-    name = name.replace(/[^a-z0-9_.-]/g, '');
+    name = name.replace(/[^a-z0-9_.-]/g, "");
     // final check
     return name.length ? name : `untitled-${Date.now()}`;
 }
@@ -60,10 +61,10 @@ async function run() {
         // ---------------------------------------------------
         // Input
         // ---------------------------------------------------
-        const userIdRaw = core.getInput('user_id', { required: true });
+        const userIdRaw = core.getInput("user_id", { required: true });
         const userId = Number(userIdRaw);
         if (!Number.isInteger(userId) || userId <= 0) {
-            core.setFailed('`user_id` must be a positive integer.');
+            core.setFailed("`user_id` must be a positive integer.");
             return;
         }
         // ---------------------------------------------------
@@ -80,9 +81,7 @@ async function run() {
         // ---------------------------------------------------
         // Decide directory name
         // ---------------------------------------------------
-        const dirName = typeof data.name === 'string'
-            ? formatDirName(data.name)
-            : `placeholder-${(0, uuid_1.v4)()}`;
+        const dirName = typeof data.name === "string" ? formatDirName(data.name) : `placeholder-${(0, uuid_1.v4)()}`;
         // ---------------------------------------------------
         // Create directory
         // ---------------------------------------------------
@@ -93,7 +92,7 @@ async function run() {
         // ---------------------------------------------------
         // Output
         // ---------------------------------------------------
-        core.setOutput('created_dir', dirName);
+        core.setOutput("created_dir", dirName);
     }
     catch (err) {
         core.setFailed(err.message);
