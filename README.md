@@ -63,7 +63,7 @@ jobs:
       - name: Create user directory
         id: userdir
         # Pin to a specific commit or version tag in production!
-        uses: Safarveisi/custom-github-action@v1
+        uses: Safarveisi/custom-github-action@v3
         with:
           user_id: 7
 
